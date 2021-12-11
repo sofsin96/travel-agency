@@ -1,11 +1,8 @@
 package com.example.travelagency.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity(name = "Agencies")
+@Entity
 public class Agency {
 
     @Id
