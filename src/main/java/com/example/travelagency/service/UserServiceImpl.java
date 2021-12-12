@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new UsernameNotFoundException("User not found in the database.");
         }
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
+        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName())));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 

@@ -32,7 +32,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             String authorizationHeader = req.getHeader(AUTHORIZATION);
             if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
-                    String token = authorizationHeader.substring("Bearer ".length());
+                    String token = authorizationHeader.substring(7);
                     JWTVerifier verifier = JWT.require(Algorithm.HMAC256("secret".getBytes())).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String username = decodedJWT.getSubject();

@@ -2,8 +2,6 @@ package com.example.travelagency.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.travelagency.entity.AppUser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,14 +29,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
-        try {
-            AppUser user = new ObjectMapper().readValue(req.getInputStream(), AppUser.class);
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-            );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        return authenticationManager.authenticate(authenticationToken);
     }
 
     @Override

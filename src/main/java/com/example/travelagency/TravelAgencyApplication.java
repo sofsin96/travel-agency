@@ -22,17 +22,17 @@ public class TravelAgencyApplication {
     @Bean
     CommandLineRunner run(UserService userService) {
         return args -> {
-            userService.saveRole(new Role(null, "ROLE_ADMIN"));
-            userService.saveRole(new Role(null, "ROLE_USER"));
+            userService.saveRole(new Role(null, "ADMIN"));
+            userService.saveRole(new Role(null, "USER"));
 
             userService.saveUser(new AppUser(null, "Pontus Redig", "pontus", "1234", new HashSet<>()));
             userService.saveUser(new AppUser(null, "Kozue Yamada", "kozue", "1234", new HashSet<>()));
             userService.saveUser(new AppUser(null, "Sofia Rodriguez", "sofia", "1234", new HashSet<>()));
 
-            userService.addRoleToUser("pontus", "ROLE_USER");
-            userService.addRoleToUser("pontus", "ROLE_ADMIN");
-            userService.addRoleToUser("kozue", "ROLE_USER");
-            userService.addRoleToUser("sofia", "ROLE_USER");
+            userService.addRoleToUser("pontus", "USER");
+            userService.addRoleToUser("pontus", "ADMIN");
+            userService.addRoleToUser("kozue", "USER");
+            userService.addRoleToUser("sofia", "USER");
         };
     }
 
