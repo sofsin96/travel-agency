@@ -15,9 +15,6 @@ public class Booking {
     private double bookingCost;
     private LocalDate bookingDate;
 
-    @ManyToOne
-    private Agency agency;
-
     @PrePersist
     public void getCurrentDate() {
         setBookingDate(LocalDate.now());
@@ -61,13 +58,5 @@ public class Booking {
 
     public void setBookingDate(LocalDate bookingDate) {
         this.bookingDate = bookingDate;
-    }
-
-    public Agency getAgency() {
-        return agency;
-    }
-
-    public void setAgency(Agency agency) {
-        this.agency = agency;
     }
 }

@@ -4,6 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/agencies")
-public class AgencyController {
+@RequestMapping("/api/v1/hotels")
+public class CustomerProfileController {
 }

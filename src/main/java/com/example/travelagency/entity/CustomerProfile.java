@@ -6,13 +6,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Transport {
+public class CustomerProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String transportType;
-
-    // More information?
+    private String name;
+    private String phoneNumber;
+    private String email;
+    private String address;
 }
