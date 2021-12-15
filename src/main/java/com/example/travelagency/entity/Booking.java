@@ -3,7 +3,7 @@ package com.example.travelagency.entity;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity(name = "Bookings")
+@Entity
 public class Booking {
 
     @Id
