@@ -1,37 +1,29 @@
 package com.example.travelagency.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@Entity @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long customerId;
-    private Long agencyId;
     private double bookingCost;
     private LocalDate bookingDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Customer customer;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Destination> destinations = new HashSet<>();
-
-    public Booking() {
-    }
-
-    public Booking(Long customerId, Long agencyId, double bookingCost, LocalDate bookingDate) {
-        this.customerId = customerId;
-        this.agencyId = agencyId;
-        this.bookingCost = bookingCost;
-        this.bookingDate = bookingDate;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Destination> destinations;
 
     @PrePersist
     public void getCurrentDate() {
@@ -39,68 +31,12 @@ public class Booking {
     }
 
     public void addDestination(Destination destination) {
-        destinations.add(destination);
+        this.destinations.add(destination);
         destination.getBookings().add(this);
     }
 
     public void removeDestination(Destination destination) {
-        destinations.remove(destination);
+        this.destinations.remove(destination);
         destination.getBookings().remove(this);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public Long getAgencyId() {
-        return agencyId;
-    }
-
-    public void setAgencyId(Long agencyId) {
-        this.agencyId = agencyId;
-    }
-
-    public double getBookingCost() {
-        return bookingCost;
-    }
-
-    public void setBookingCost(double bookingCost) {
-        this.bookingCost = bookingCost;
-    }
-
-    public LocalDate getBookingDate() {
-        return bookingDate;
-    }
-
-    public void setBookingDate(LocalDate bookingDate) {
-        this.bookingDate = bookingDate;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Set<Destination> getDestinations() {
-        return destinations;
-    }
-
-    public void setDestinations(Set<Destination> destinations) {
-        this.destinations = destinations;
     }
 }

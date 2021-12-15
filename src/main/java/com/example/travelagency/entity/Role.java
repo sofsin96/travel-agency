@@ -11,13 +11,16 @@ import java.util.Set;
 @Entity @NoArgsConstructor @Setter
 public class Role {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
 
     @Getter
     private String name;
 
-    @ManyToMany(mappedBy = "roles") @Getter(onMethod_ = @JsonIgnore)
+    @ManyToMany(mappedBy = "roles")
+    @Getter(onMethod_ = @JsonIgnore)
     private Set<AppUser> users;
 
     public Role(Long id, String name) {

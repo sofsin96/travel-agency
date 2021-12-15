@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public class AppUser {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -24,5 +24,10 @@ public class AppUser {
     public void addRole(Role role) {
         this.roles.add(role);
         role.getUsers().add(this);
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+        role.getUsers().remove(this);
     }
 }
