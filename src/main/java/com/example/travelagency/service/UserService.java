@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +62,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        AppUser user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        userRepository.deleteById(user.getId());
     }
 }

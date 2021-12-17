@@ -5,6 +5,7 @@ import com.example.travelagency.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public class RoleService {
     }
 
     public void deleteRole(Long id) {
-        roleRepository.deleteById(id);
+        Role role = roleRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        roleRepository.deleteById(role.getId());
     }
 }
