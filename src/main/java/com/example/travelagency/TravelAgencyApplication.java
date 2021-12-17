@@ -2,6 +2,7 @@ package com.example.travelagency;
 
 import com.example.travelagency.entity.AppUser;
 import com.example.travelagency.entity.Role;
+import com.example.travelagency.service.RoleService;
 import com.example.travelagency.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,14 +21,14 @@ public class TravelAgencyApplication {
     }
 
     @Bean
-    CommandLineRunner run(UserService userService) {
+    CommandLineRunner run(UserService userService, RoleService roleService) {
         return args -> {
-            userService.saveRole(new Role(null, "ADMIN"));
-            userService.saveRole(new Role(null, "USER"));
+            roleService.createRole(new Role(null, "ADMIN"));
+            roleService.createRole(new Role(null, "USER"));
 
-            userService.saveUser(new AppUser(null, "Pontus Redig", "pontus", "1234", new HashSet<>()));
-            userService.saveUser(new AppUser(null, "Kozue Yamada", "kozue", "1234", new HashSet<>()));
-            userService.saveUser(new AppUser(null, "Sofia Rodriguez", "sofia", "1234", new HashSet<>()));
+            userService.createUser(new AppUser(null, "Pontus Redig", "pontus", "1234", new HashSet<>()));
+            userService.createUser(new AppUser(null, "Kozue Yamada", "kozue", "1234", new HashSet<>()));
+            userService.createUser(new AppUser(null, "Sofia Rodriguez", "sofia", "1234", new HashSet<>()));
 
             userService.addRoleToUser("pontus", "USER");
             userService.addRoleToUser("pontus", "ADMIN");
