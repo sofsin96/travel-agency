@@ -2,7 +2,6 @@ package com.example.travelagency;
 
 import com.example.travelagency.entity.AppUser;
 import com.example.travelagency.entity.Role;
-import com.example.travelagency.service.RoleService;
 import com.example.travelagency.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,10 +20,10 @@ public class TravelAgencyApplication {
     }
 
     @Bean
-    CommandLineRunner run(UserService userService, RoleService roleService) {
+    CommandLineRunner run(UserService userService) {
         return args -> {
-            roleService.createRole(new Role(null, "ADMIN"));
-            roleService.createRole(new Role(null, "USER"));
+            userService.createRole(new Role(null, "ADMIN"));
+            userService.createRole(new Role(null, "USER"));
 
             userService.createUser(new AppUser(null, "Pontus Redig", "pontus", "1234", new HashSet<>()));
             userService.createUser(new AppUser(null, "Kozue Yamada", "kozue", "1234", new HashSet<>()));

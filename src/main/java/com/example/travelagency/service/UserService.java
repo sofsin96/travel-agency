@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@Service @RequiredArgsConstructor
+@Service @RequiredArgsConstructor @Transactional
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -64,5 +65,9 @@ public class UserService implements UserDetailsService {
     public void deleteUser(Long id) {
         AppUser user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         userRepository.deleteById(user.getId());
+    }
+
+    public Role createRole(Role role) {
+        return roleRepository.save(role);
     }
 }
