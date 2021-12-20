@@ -1,6 +1,5 @@
 package com.example.travelagency.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,11 +8,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
-@Entity @NoArgsConstructor @AllArgsConstructor @Getter @Setter
-public class AppUser implements Serializable {
+@Entity @NoArgsConstructor @Getter @Setter
+public class User implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +19,7 @@ public class AppUser implements Serializable {
     private String name;
 
     @NotEmpty(message = "Username is mandatory")
-    @Size(min = 2, message = "Name must be at least 2 characters long")
+    @Size(min = 2, message = "Username must be at least 2 characters long")
     private String username;
 
     @NotEmpty(message = "Password is mandatory")
@@ -29,6 +27,13 @@ public class AppUser implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    public User(String name, String username, String password, Set<Role> roles) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
 
     public void addRole(Role role) {
         this.roles.add(role);
@@ -42,7 +47,7 @@ public class AppUser implements Serializable {
 
     @Override
     public String toString() {
-        return "AppUser{" +
+        return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", username='" + username + '\'' +

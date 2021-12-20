@@ -23,10 +23,9 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles")
     @Getter(onMethod_ = @JsonIgnore)
-    private Set<AppUser> users;
+    private Set<User> users;
 
-    public Role(Long id, String name) {
-        this.id = id;
+    public Role(String name) {
         this.name = name;
     }
 }

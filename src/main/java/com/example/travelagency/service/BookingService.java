@@ -5,12 +5,13 @@ import com.example.travelagency.entity.Customer;
 import com.example.travelagency.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-@Service @RequiredArgsConstructor
+@Service @RequiredArgsConstructor @Transactional
 public class BookingService {
 
     private final BookingRepository bookingRepository;

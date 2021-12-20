@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class QueueReceiveController {
 
-    private static final String QUEUE_NAME = "message-queue";
+    private static final String QUEUE_NAME = "created-user";
 
     private final Logger logger = LoggerFactory.getLogger(QueueReceiveController.class);
 

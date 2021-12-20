@@ -14,12 +14,12 @@ public class CustomerProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String personalIdNo;
     private String phoneNumber;
     private String address;
-    private String birthday;
     private String gender;
-    private String family1;
-    private String family2;
+//    private String family1;
+//    private String family2;
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId

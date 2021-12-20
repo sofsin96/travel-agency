@@ -14,8 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration @EnableWebSecurity @RequiredArgsConstructor
@@ -32,10 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeHttpRequests().antMatchers(POST, "/login").permitAll();
-        http.authorizeHttpRequests().antMatchers(GET, "/api/v1/users").hasRole("USER");
-        http.authorizeHttpRequests().antMatchers(POST, "/api/v1/user/createuser").hasRole("ADMIN");
+        http.authorizeHttpRequests().antMatchers("/h2-console/**").permitAll();
+        http.authorizeHttpRequests().antMatchers(GET, "/api/v1/users", "/api/v1/users/{id}").hasAnyRole("ADMIN", "USER");
+        http.authorizeHttpRequests().antMatchers(POST, "/api/v1/users/addroletouser", "/api/v1/users/deleterolefromuser").hasRole("ADMIN");
+        http.authorizeHttpRequests().antMatchers(DELETE, "/api/v1/users/{id}").hasRole("ADMIN");
         http.authorizeHttpRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

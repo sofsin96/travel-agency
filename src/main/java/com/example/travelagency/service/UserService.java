@@ -1,6 +1,6 @@
 package com.example.travelagency.service;
 
-import com.example.travelagency.entity.AppUser;
+import com.example.travelagency.entity.User;
 import com.example.travelagency.entity.Role;
 import com.example.travelagency.repository.RoleRepository;
 import com.example.travelagency.repository.UserRepository;
@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found in the database.");
         }
@@ -37,37 +37,33 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
-    public AppUser createUser(AppUser user) {
+    public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    public List<AppUser> getUsers() {
+    public List<User> getUsers() {
         return userRepository.findAll();
     }
 
-    public Optional<AppUser> getUserById(Long id) {
+    public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
 
     public void addRoleToUser(String username, String roleName) {
-        AppUser user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         Role role = roleRepository.findByName(roleName);
         user.addRole(role);
     }
 
     public void deleteRoleFromUser(String username, String roleName) {
-        AppUser user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         Role role = roleRepository.findByName(roleName);
         user.removeRole(role);
     }
 
     public void deleteUser(Long id) {
-        AppUser user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         userRepository.deleteById(user.getId());
-    }
-
-    public Role createRole(Role role) {
-        return roleRepository.save(role);
     }
 }

@@ -6,18 +6,19 @@ import com.example.travelagency.repository.BookingRepository;
 import com.example.travelagency.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-@Service @RequiredArgsConstructor
+@Service @RequiredArgsConstructor @Transactional
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final BookingRepository bookingRepository;
 
-    public Customer createUser(Customer user) {
+    public Customer createCustomer(Customer user) {
         return customerRepository.save(user);
     }
 
@@ -30,9 +31,10 @@ public class CustomerService {
     }
 
     public void addItineraryToCustomer(Long customerId, Long bookingId) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(EntityNotFoundException::new);
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(EntityNotFoundException::new);
-        customer.addItinerary(booking);
+        Optional<Customer> customer = getCustomerById(customerId);
+        Optional<Booking> booking = bookingRepository.findById(bookingId);
+
+        booking.ifPresent((Booking b) -> customer.ifPresent(c -> c.addItinerary(b)));
     }
 
     public void deleteItineraryFromCustomer(Long customerId, Long bookingId) {
