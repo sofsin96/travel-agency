@@ -22,7 +22,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    @Getter(onMethod_ = @JsonIgnore)
+    @Getter(onMethod=@__({@JsonIgnore}))
     private Set<User> users;
 
     public Role(String name) {

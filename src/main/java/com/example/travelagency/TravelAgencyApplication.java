@@ -41,7 +41,7 @@ public class TravelAgencyApplication {
             userService.addRoleToUser("kozue", "USER");
             userService.addRoleToUser("sofia", "USER");
 
-            bookingService.createBooking(new Booking(1L, 100.00, null, null, new HashSet<>()));
+            bookingService.createBooking(new Booking(1L, 100.00));
             customerService.createCustomer(new Customer(1L, "Sofia", "Rodriguez", "test@test.com", null, new HashSet<>()));
 
             customerService.addItineraryToCustomer(1L, 1L);
