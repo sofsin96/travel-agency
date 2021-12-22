@@ -1,15 +1,14 @@
 package com.example.travelagency.entity;
 
-import com.fasterxml.jackson.annotation.*;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity @NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@Entity @Getter @Setter
 //@JsonIdentityInfo(
 //        generator = ObjectIdGenerators.PropertyGenerator.class,
 //        property = "id") @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -22,6 +21,7 @@ public class Customer {
     private String lastName;
     private String email;
 
+    @JsonManagedReference
     @OneToOne(mappedBy = "customer",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

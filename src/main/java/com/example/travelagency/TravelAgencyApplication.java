@@ -1,11 +1,7 @@
 package com.example.travelagency;
 
-import com.example.travelagency.entity.Booking;
-import com.example.travelagency.entity.Customer;
-import com.example.travelagency.entity.User;
 import com.example.travelagency.entity.Role;
-import com.example.travelagency.service.BookingService;
-import com.example.travelagency.service.CustomerService;
+import com.example.travelagency.entity.User;
 import com.example.travelagency.service.RoleService;
 import com.example.travelagency.service.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -27,24 +23,13 @@ public class TravelAgencyApplication {
     }
 
     @Bean
-    CommandLineRunner run(UserService userService, RoleService roleService, CustomerService customerService, BookingService bookingService) {
+    CommandLineRunner run(RoleService roleService, UserService userService) {
         return args -> {
-            roleService.createRole(new Role("ADMIN"));
             roleService.createRole(new Role("USER"));
+            roleService.createRole(new Role("ADMIN"));
 
-            userService.createUser(new User("Pontus Redig", "pontus", "1234", new HashSet<>()));
-            userService.createUser(new User("Kozue Yamada", "kozue", "1234", new HashSet<>()));
-            userService.createUser(new User("Sofia Rodriguez", "sofia", "1234", new HashSet<>()));
-
-            userService.addRoleToUser("pontus", "USER");
-            userService.addRoleToUser("pontus", "ADMIN");
-            userService.addRoleToUser("kozue", "USER");
-            userService.addRoleToUser("sofia", "USER");
-
-            bookingService.createBooking(new Booking(1L, 100.00));
-            customerService.createCustomer(new Customer(1L, "Sofia", "Rodriguez", "test@test.com", null, new HashSet<>()));
-
-            customerService.addItineraryToCustomer(1L, 1L);
+            userService.createUser(new User("Sofia Rodriguez", "sofia", "1234"));
+            userService.addRoleToUser("sofia", "ADMIN");
         };
     }
 

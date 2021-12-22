@@ -1,15 +1,13 @@
 package com.example.travelagency.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity @NoArgsConstructor @AllArgsConstructor @Setter
+@Entity @Setter
 public class Destination {
 
     @Id
@@ -24,6 +22,6 @@ public class Destination {
     private String country;
 
     @ManyToMany(mappedBy = "destinations")
-    @Getter(onMethod_ = @JsonIgnore)
+    @Getter(onMethod=@__({@JsonIgnore}))
     private Set<Booking> bookings;
 }

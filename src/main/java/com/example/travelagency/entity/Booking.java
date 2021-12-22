@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Entity @NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@Entity @Getter @Setter
 //@JsonIdentityInfo(
 //        generator = ObjectIdGenerators.PropertyGenerator.class,
 //        property = "id")
@@ -24,7 +24,6 @@ public class Booking {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="customer_id")
     private Customer customer;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -43,11 +42,6 @@ public class Booking {
     @PrePersist
     public void getCurrentDate() {
         setBookingDate(LocalDate.now());
-    }
-
-    public Booking(Long id, double bookingCost) {
-        this.id = id;
-        this.bookingCost = bookingCost;
     }
 
     public void addDestination(Destination destination) {

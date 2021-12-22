@@ -2,24 +2,26 @@ package com.example.travelagency.service;
 
 import com.example.travelagency.entity.Booking;
 import com.example.travelagency.entity.Customer;
+import com.example.travelagency.entity.CustomerProfile;
 import com.example.travelagency.repository.BookingRepository;
 import com.example.travelagency.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-@Service @RequiredArgsConstructor @Transactional
+@Service @RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final BookingRepository bookingRepository;
 
-    public Customer createCustomer(Customer user) {
-        return customerRepository.save(user);
+    public Customer createCustomer(Customer customer) {
+        CustomerProfile customerProfile = customer.getCustomerProfile();
+        customerProfile.setCustomer(customer);
+        return customerRepository.save(customer);
     }
 
     public List<Customer> getCustomers() {
@@ -34,7 +36,7 @@ public class CustomerService {
         Optional<Customer> customer = getCustomerById(customerId);
         Optional<Booking> booking = bookingRepository.findById(bookingId);
 
-        booking.ifPresent((Booking b) -> customer.ifPresent(c -> c.addItinerary(b)));
+        booking.ifPresent(b -> customer.ifPresent(c -> c.addItinerary(b)));
     }
 
     public void deleteItineraryFromCustomer(Long customerId, Long bookingId) {

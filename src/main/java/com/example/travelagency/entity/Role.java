@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
-@Entity @NoArgsConstructor @Setter
+@Entity @Setter @NoArgsConstructor
 public class Role {
 
     @Id

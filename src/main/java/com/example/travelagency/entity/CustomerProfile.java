@@ -1,13 +1,12 @@
 package com.example.travelagency.entity;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity @NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@Entity @Getter @Setter
 public class CustomerProfile {
 
     @Id
@@ -18,10 +17,9 @@ public class CustomerProfile {
     private String phoneNumber;
     private String address;
     private String gender;
-//    private String family1;
-//    private String family2;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @JoinColumn(name = "customer_id")
+    @JsonBackReference
     private Customer customer;
 }

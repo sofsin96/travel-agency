@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity @NoArgsConstructor @Getter @Setter
@@ -28,11 +29,11 @@ public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    public User(String name, String username, String password, Set<Role> roles) {
+    public User(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.roles = roles;
+        this.roles = new HashSet<>();
     }
 
     public void addRole(Role role) {

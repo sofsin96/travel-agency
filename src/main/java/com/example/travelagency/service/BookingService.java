@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-@Service @RequiredArgsConstructor @Transactional
+@Service @RequiredArgsConstructor
 public class BookingService {
 
     private final BookingRepository bookingRepository;
