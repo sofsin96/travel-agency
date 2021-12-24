@@ -1,6 +1,5 @@
 package com.example.travelagency.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,9 +8,6 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity @Getter @Setter
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id") @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Customer {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +24,9 @@ public class Customer {
             optional = false)
     private CustomerProfile customerProfile;
 
-    @JsonIgnoreProperties({"customerName"})
+//    @JsonIgnoreProperties({"customerName"})
     @JsonManagedReference
-    @OneToMany(mappedBy = "customer",
+    @OneToMany(targetEntity = Booking.class,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private Set<Booking> bookings;

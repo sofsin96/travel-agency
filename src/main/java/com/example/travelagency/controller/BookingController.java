@@ -35,6 +35,18 @@ public class BookingController {
                         "Booking with id " + id + " not found."));
     }
 
+    @PostMapping("/adddestinationtobooking")
+    public ResponseEntity<?> addDestinationToBooking(@RequestParam("bookingid") Long bookingId, @RequestParam("destinationid") Long destinationid) {
+        bookingService.addDestinationToBooking(bookingId, destinationid);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/deletedestinationfrombooking")
+    public ResponseEntity<?> deleteDestinationFromBooking(@RequestParam("bookingid") Long bookingId, @RequestParam("destinationid") Long destinationid) {
+        bookingService.deleteDestinationFromBooking(bookingId, destinationid);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     public void deleteBooking(@PathVariable Long id) {
         bookingService.deleteBooking(id);
