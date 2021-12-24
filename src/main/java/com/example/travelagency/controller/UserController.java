@@ -1,6 +1,7 @@
 package com.example.travelagency.controller;
 
 import com.example.travelagency.entity.User;
+import com.example.travelagency.exception.CustomNotFoundException;
 import com.example.travelagency.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,6 +27,7 @@ public class UserController {
     @PostMapping("/createuser")
     @ResponseStatus(CREATED)
     public User createUser(@Valid @RequestBody User user) {
+
         User createdUser = userService.createUser(user);
 
         ObjectMapper objMapper = new ObjectMapper();
@@ -46,8 +47,7 @@ public class UserController {
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND,
-                        "User with id " + id + " not found."));
+                .orElseThrow(() -> new CustomNotFoundException("User", id));
     }
 
     @PostMapping("/addroletouser")

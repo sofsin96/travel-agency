@@ -18,7 +18,27 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(
                 new Date(),
                 ex.getMessage(),
-                req.getDescription(false));
+                req.getDescription(true));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({CustomBadRequestException.class})
+    public final ResponseEntity<ExceptionResponse> customBadRequestException(
+            CustomBadRequestException ex, WebRequest req) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                req.getDescription(true));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({CustomUnsupportedMediaTypeException.class})
+    public final ResponseEntity<ExceptionResponse> CustomUnsupportedMediaTypeException(
+            CustomUnsupportedMediaTypeException ex, WebRequest req) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                req.getDescription(true));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 }
