@@ -1,11 +1,11 @@
 package com.example.travelagency.service;
 
-import com.example.travelagency.entity.*;
+import com.example.travelagency.entity.Booking;
+import com.example.travelagency.entity.Destination;
 import com.example.travelagency.repository.BookingRepository;
 import com.example.travelagency.repository.DestinationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;

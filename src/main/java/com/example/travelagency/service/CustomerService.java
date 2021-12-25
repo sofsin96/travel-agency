@@ -19,8 +19,8 @@ public class CustomerService {
     private final BookingRepository bookingRepository;
 
     public Customer createCustomer(Customer customer) {
-        CustomerProfile customerProfile = customer.getCustomerProfile();
-        customerProfile.setCustomer(customer);
+//        CustomerProfile customerProfile = customer.getCustomerProfile();
+//        customerProfile.setCustomer(customer);
         return customerRepository.save(customer);
     }
 
@@ -37,6 +37,7 @@ public class CustomerService {
         Optional<Booking> booking = bookingRepository.findById(bookingId);
 
         booking.ifPresent(b -> customer.ifPresent(c -> c.addItinerary(b)));
+        customerRepository.flush();
     }
 
     public void deleteItineraryFromCustomer(Long customerId, Long bookingId) {

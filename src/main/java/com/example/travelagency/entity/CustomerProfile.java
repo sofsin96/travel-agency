@@ -6,11 +6,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity @Getter @Setter
+@Entity @Setter     @Getter
 public class CustomerProfile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String personalIdNo;
