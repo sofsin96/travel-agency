@@ -4,7 +4,6 @@ import com.example.travelagency.entity.Booking;
 import com.example.travelagency.entity.Customer;
 import com.example.travelagency.entity.CustomerProfile;
 import com.example.travelagency.repository.BookingRepository;
-import com.example.travelagency.repository.CustomerProfileRepository;
 import com.example.travelagency.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,12 +16,11 @@ import java.util.Optional;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final CustomerProfileRepository customerProfileRepository;
     private final BookingRepository bookingRepository;
 
     public Customer createCustomer(Customer customer) {
-//        CustomerProfile customerProfile = customer.getCustomerProfile();
-//        customerProfile.setCustomer(customer);
+        CustomerProfile customerProfile = customer.getCustomerProfile();
+        customerProfile.setCustomer(customer);
         return customerRepository.save(customer);
     }
 
@@ -33,22 +31,6 @@ public class CustomerService {
     public Optional<Customer> getCustomerById(Long id) {
         return customerRepository.findById(id);
     }
-
-//    public void addProfileToCustomer(Long customerId, Long profileId) {
-//        Optional<Customer> customer = getCustomerById(customerId);
-//        Optional<CustomerProfile> profile = customerProfileRepository.findById(profileId);
-//
-//        profile.ifPresent(p -> customer.ifPresent(c -> c.setCustomerProfile(p)));
-//        customerRepository.flush();
-//    }
-//
-//    public void deleteProfileFromCustomer(Long customerId, Long profileId) {
-//        Optional<Customer> customer = getCustomerById(customerId);
-//        Optional<CustomerProfile> profile = customerProfileRepository.findById(profileId);
-//
-//        profile.flatMap(p -> customer).ifPresent(c -> c.setCustomerProfile(null));
-//        customerRepository.flush();
-//    }
 
     public void addItineraryToCustomer(Long customerId, Long bookingId) {
         Optional<Customer> customer = getCustomerById(customerId);

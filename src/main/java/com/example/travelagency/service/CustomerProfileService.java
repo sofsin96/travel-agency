@@ -14,8 +14,8 @@ public class CustomerProfileService {
     private final CustomerProfileRepository customerProfileRepository;
 
     public CustomerProfile createProfile(CustomerProfile customerProfile) {
-//        Customer customer = customerProfile.getCustomer();
-//        customerProfile.setCustomer(customer);
+        Customer customer = customerProfile.getCustomer();
+        customerProfile.setCustomer(customer);
         return customerProfileRepository.save(customerProfile);
     }
 
