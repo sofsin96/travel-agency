@@ -25,7 +25,7 @@ public class Booking {
     @JsonIgnoreProperties({"bookings"})
     private Customer customer;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Destination> destinations;
 
     @PrePersist

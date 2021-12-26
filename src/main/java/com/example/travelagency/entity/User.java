@@ -26,7 +26,7 @@ public class User implements Serializable {
     @NotEmpty(message = "Password is mandatory")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Role> roles;
 
     public User(String name, String username, String password) {

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity @Setter     @Getter
+@Entity @Setter @Getter
 public class CustomerProfile {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

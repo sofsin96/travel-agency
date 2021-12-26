@@ -34,12 +34,15 @@ public class BookingService {
         Optional<Destination> destination = destinationRepository.findById(destinationId);
 
         destination.ifPresent(d -> booking.ifPresent(b -> b.addDestination(d)));
+        bookingRepository.flush();
     }
 
     public void deleteDestinationFromBooking(Long bookingId, Long destinationId) {
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(EntityNotFoundException::new);
-        Destination destination = destinationRepository.findById(destinationId).orElseThrow(EntityNotFoundException::new);
-        booking.removeDestination(destination);
+        Optional<Booking> booking = getBookingById(bookingId);
+        Optional<Destination> destination = destinationRepository.findById(destinationId);
+
+        destination.ifPresent(d -> booking.ifPresent(b -> b.removeDestination(d)));
+        bookingRepository.flush();
     }
 
     public void deleteBooking(Long id) {

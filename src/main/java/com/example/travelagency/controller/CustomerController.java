@@ -35,6 +35,18 @@ public class CustomerController {
                         "Customer with id " + id + " not found."));
     }
 
+//    @PostMapping("/addprofiletocustomer")
+//    public ResponseEntity<?> addProfileToCustomer(@RequestParam("customerid") Long customerId, @RequestParam("profileid") Long profileId) {
+//        customerService.addProfileToCustomer(customerId, profileId);
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @PostMapping("/deleteprofilefromcustomer")
+//    public ResponseEntity<?> deleteProfileFromCustomer(@RequestParam("customerid") Long customerId, @RequestParam("profileid") Long profileId) {
+//        customerService.deleteProfileFromCustomer(customerId, profileId);
+//        return ResponseEntity.ok().build();
+//    }
+
     @PostMapping("/additinerarytocustomer")
     public ResponseEntity<?> addItineraryToCustomer(@RequestParam("customerid") Long customerId, @RequestParam("bookingid") Long bookingId) {
         customerService.addItineraryToCustomer(customerId, bookingId);
