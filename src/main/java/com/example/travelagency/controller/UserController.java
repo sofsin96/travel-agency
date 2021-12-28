@@ -47,7 +47,7 @@ public class UserController {
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id)
-                .orElseThrow(() -> new CustomNotFoundException("User", id));
+                .orElseThrow(() -> new CustomNotFoundException("User ID", id));
     }
 
     @PostMapping("/addroletouser")
