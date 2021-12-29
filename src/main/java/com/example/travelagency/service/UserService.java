@@ -2,6 +2,9 @@ package com.example.travelagency.service;
 
 import com.example.travelagency.entity.User;
 import com.example.travelagency.entity.Role;
+import com.example.travelagency.exception.CustomEntityNotFoundException;
+import com.example.travelagency.exception.CustomNameNotFoundException;
+import com.example.travelagency.exception.CustomNotFoundException;
 import com.example.travelagency.repository.RoleRepository;
 import com.example.travelagency.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,18 +56,31 @@ public class UserService implements UserDetailsService {
 
     public void addRoleToUser(String username, String roleName) {
         User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new CustomNameNotFoundException("Username", username);
+        }
         Role role = roleRepository.findByName(roleName);
+        if (role == null) {
+            throw new CustomNameNotFoundException("Username", username);
+        }
         user.addRole(role);
     }
 
     public void deleteRoleFromUser(String username, String roleName) {
         User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new CustomNameNotFoundException("Username", username);
+        }
         Role role = roleRepository.findByName(roleName);
+        if (role == null) {
+            throw new CustomNameNotFoundException("Username", username);
+        }
         user.removeRole(role);
     }
 
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new CustomEntityNotFoundException("User", id));
         userRepository.deleteById(user.getId());
     }
 }

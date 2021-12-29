@@ -22,23 +22,23 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({CustomBadRequestException.class})
-    public final ResponseEntity<ExceptionResponse> customBadRequestException(
-            CustomBadRequestException ex, WebRequest req) {
+    @ExceptionHandler({CustomEntityNotFoundException.class})
+    public final ResponseEntity<ExceptionResponse> customEntityNotFoundException(
+            CustomEntityNotFoundException ex, WebRequest req) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(
                 new Date(),
                 ex.getMessage(),
                 req.getDescription(true));
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler({CustomUnsupportedMediaTypeException.class})
-    public final ResponseEntity<ExceptionResponse> CustomUnsupportedMediaTypeException(
-            CustomUnsupportedMediaTypeException ex, WebRequest req) {
+    @ExceptionHandler({CustomNameNotFoundException.class})
+    public final ResponseEntity<ExceptionResponse> customNameNotFoundException(
+            CustomNameNotFoundException ex, WebRequest req) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(
                 new Date(),
                 ex.getMessage(),
                 req.getDescription(true));
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
     }
 }
