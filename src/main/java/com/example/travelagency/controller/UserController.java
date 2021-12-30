@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController @RequestMapping("/api/v1/users") @RequiredArgsConstructor
 public class UserController {

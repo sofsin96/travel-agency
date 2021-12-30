@@ -1,16 +1,15 @@
 package com.example.travelagency.controller;
 
 import com.example.travelagency.entity.Booking;
+import com.example.travelagency.exception.CustomNotFoundException;
 import com.example.travelagency.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController @RequestMapping("/api/v1/bookings") @RequiredArgsConstructor
 public class BookingController {
@@ -31,8 +30,7 @@ public class BookingController {
     @GetMapping("/{id}")
     public Booking getBookingById(@PathVariable Long id) {
         return bookingService.getBookingById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND,
-                        "Booking with id " + id + " not found."));
+                .orElseThrow(() -> new CustomNotFoundException("Booking ID", id));
     }
 
     @DeleteMapping("/{id}")

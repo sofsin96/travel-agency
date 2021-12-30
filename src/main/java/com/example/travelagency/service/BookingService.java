@@ -1,13 +1,11 @@
 package com.example.travelagency.service;
 
 import com.example.travelagency.entity.Booking;
-import com.example.travelagency.entity.Customer;
+import com.example.travelagency.exception.CustomEntityNotFoundException;
 import com.example.travelagency.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +27,8 @@ public class BookingService {
     }
 
     public void deleteBooking(Long id) {
-        Booking booking = bookingRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new CustomEntityNotFoundException("Booking", id));
         bookingRepository.deleteById(booking.getId());
     }
 }
