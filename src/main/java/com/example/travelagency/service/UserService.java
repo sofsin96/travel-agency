@@ -38,6 +38,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User createUser(User user) {
+        if (checkIfUserExist(user.getUsername())) {
+            throw new RuntimeException("User already exists for this username");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.addRole(roleRepository.findByName("USER"));
         return userRepository.save(user);
@@ -66,5 +69,9 @@ public class UserService implements UserDetailsService {
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         userRepository.deleteById(user.getId());
+    }
+
+    public boolean checkIfUserExist(String username) {
+        return userRepository.findByUsername(username) != null;
     }
 }
