@@ -3,14 +3,13 @@ package com.example.travelagency.service;
 import com.example.travelagency.entity.Booking;
 import com.example.travelagency.entity.Customer;
 import com.example.travelagency.entity.CustomerProfile;
+import com.example.travelagency.exception.CustomEntityNotFoundException;
 import com.example.travelagency.repository.BookingRepository;
 import com.example.travelagency.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service @RequiredArgsConstructor
 public class CustomerService {
@@ -28,28 +27,28 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getCustomerById(Long id) {
-        return customerRepository.findById(id);
+    public Customer getCustomerById(Long id) {
+        return customerRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException("Customer", id));
     }
 
     public void addItineraryToCustomer(Long customerId, Long bookingId) {
-        Optional<Customer> customer = getCustomerById(customerId);
-        Optional<Booking> booking = bookingRepository.findById(bookingId);
+        Customer customer = getCustomerById(customerId);
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new CustomEntityNotFoundException("Booking", bookingId));
 
-        booking.ifPresent(b -> customer.ifPresent(c -> c.addItinerary(b)));
-        customerRepository.flush();
+        customer.addItinerary(booking);
+        //customerRepository.flush();
     }
 
     public void deleteItineraryFromCustomer(Long customerId, Long bookingId) {
-        Optional<Customer> customer = getCustomerById(customerId);
-        Optional<Booking> booking = bookingRepository.findById(bookingId);
+        Customer customer = getCustomerById(customerId);
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new CustomEntityNotFoundException("Booking", bookingId));
 
-        booking.ifPresent(b -> customer.ifPresent(c -> c.removeItinerary(b)));
-        customerRepository.flush();
+        customer.removeItinerary(booking);
+        //customerRepository.flush();
     }
 
     public void deleteCustomer(Long id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Customer customer = getCustomerById(id);
         customerRepository.deleteById(customer.getId());
     }
 }

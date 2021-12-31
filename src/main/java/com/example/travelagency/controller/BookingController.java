@@ -1,12 +1,12 @@
 package com.example.travelagency.controller;
 
 import com.example.travelagency.entity.Booking;
-import com.example.travelagency.exception.CustomNotFoundException;
 import com.example.travelagency.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -18,7 +18,7 @@ public class BookingController {
 
     @PostMapping("/createbooking")
     @ResponseStatus(CREATED)
-    public Booking createBooking(@RequestBody Booking booking) {
+    public Booking createBooking(@Valid @RequestBody Booking booking) {
         return bookingService.createBooking(booking);
     }
 
@@ -29,8 +29,7 @@ public class BookingController {
 
     @GetMapping("/{id}")
     public Booking getBookingById(@PathVariable Long id) {
-        return bookingService.getBookingById(id)
-                .orElseThrow(() -> new CustomNotFoundException("Booking ID", id));
+        return bookingService.getBookingById(id);
     }
 
     @PostMapping("/adddestinationtobooking")
@@ -46,7 +45,8 @@ public class BookingController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBooking(@PathVariable Long id) {
+    public ResponseEntity<String> deleteBooking(@PathVariable Long id) {
         bookingService.deleteBooking(id);
+        return ResponseEntity.ok().body("Booking with id " + id + "successfully deleted.");
     }
 }

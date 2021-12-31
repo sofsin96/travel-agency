@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -17,7 +18,7 @@ public class CustomerProfileController {
 
     @PostMapping("/createprofile")
     @ResponseStatus(CREATED)
-    public CustomerProfile createProfile (@RequestBody CustomerProfile customerProfile) {
+    public CustomerProfile createProfile (@Valid @RequestBody CustomerProfile customerProfile) {
         return customerProfileService.createProfile(customerProfile);
     }
 

@@ -40,7 +40,8 @@ public class UserService implements UserDetailsService {
 
     public User createUser(User user) {
         if (checkIfUserExist(user.getUsername())) {
-            throw new RuntimeException("User already exists for this username");
+            throw new RuntimeException("User with username " + user.getUsername() + " already exists.");
+            // TODO: Create exception
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.addRole(roleRepository.findByName("USER"));
@@ -51,41 +52,44 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException("User", id));
     }
 
     public void addRoleToUser(String username, String roleName) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new CustomNameNotFoundException("Username", username);
-        }
-        Role role = roleRepository.findByName(roleName);
-        if (role == null) {
-            throw new CustomNameNotFoundException("Username", username);
-        }
+        User user = getUser(username);
+        Role role = getRole(roleName);
         user.addRole(role);
     }
 
     public void deleteRoleFromUser(String username, String roleName) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new CustomNameNotFoundException("Username", username);
-        }
-        Role role = roleRepository.findByName(roleName);
-        if (role == null) {
-            throw new CustomNameNotFoundException("Username", username);
-        }
+        User user = getUser(username);
+        Role role = getRole(roleName);
         user.removeRole(role);
     }
 
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new CustomEntityNotFoundException("User", id));
+        User user = getUserById(id);
         userRepository.deleteById(user.getId());
     }
 
     public boolean checkIfUserExist(String username) {
         return userRepository.findByUsername(username) != null;
+    }
+
+    private User getUser(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new CustomNameNotFoundException("Username", username);
+        }
+        return user;
+    }
+
+    private Role getRole(String roleName) {
+        Role role = roleRepository.findByName(roleName);
+        if (role == null) {
+            throw new CustomNameNotFoundException("Role name", roleName);
+        }
+        return role;
     }
 }

@@ -14,6 +14,11 @@ public class CustomerProfileService {
     private final CustomerProfileRepository customerProfileRepository;
 
     public CustomerProfile createProfile(CustomerProfile customerProfile) {
+        if (checkIfPersonalIdNoExist(customerProfile.getPersonalIdNo())) {
+            throw new RuntimeException("Personal identity number with id " + customerProfile.getPersonalIdNo() + " already exists.");
+            // TODO: Create exception
+        }
+
         Customer customer = customerProfile.getCustomer();
         customerProfile.setCustomer(customer);
         return customerProfileRepository.save(customerProfile);
@@ -21,5 +26,9 @@ public class CustomerProfileService {
 
     public List<CustomerProfile> getProfiles() {
         return customerProfileRepository.findAll();
+    }
+
+    public boolean checkIfPersonalIdNoExist(String personalIdNo) {
+        return customerProfileRepository.findByPersonalIdNo(personalIdNo) != null;
     }
 }

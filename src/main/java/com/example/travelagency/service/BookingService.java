@@ -2,6 +2,7 @@ package com.example.travelagency.service;
 
 import com.example.travelagency.entity.Booking;
 import com.example.travelagency.entity.Destination;
+import com.example.travelagency.exception.CustomEntityNotFoundException;
 import com.example.travelagency.repository.BookingRepository;
 import com.example.travelagency.repository.DestinationRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,28 +26,28 @@ public class BookingService {
         return bookingRepository.findAll();
     }
 
-    public Optional<Booking> getBookingById(Long id) {
-        return bookingRepository.findById(id);
+    public Booking getBookingById(Long id) {
+        return bookingRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException("Booking", id));
     }
 
     public void addDestinationToBooking(Long bookingId, Long destinationId) {
-        Optional<Booking> booking = getBookingById(bookingId);
-        Optional<Destination> destination = destinationRepository.findById(destinationId);
+        Booking booking = getBookingById(bookingId);
+        Destination destination = destinationRepository.findById(destinationId).orElseThrow(() -> new CustomEntityNotFoundException("Destination", destinationId));
 
-        destination.ifPresent(d -> booking.ifPresent(b -> b.addDestination(d)));
-        bookingRepository.flush();
+        booking.addDestination(destination);
+        //bookingRepository.flush();
     }
 
     public void deleteDestinationFromBooking(Long bookingId, Long destinationId) {
-        Optional<Booking> booking = getBookingById(bookingId);
-        Optional<Destination> destination = destinationRepository.findById(destinationId);
+        Booking booking = getBookingById(bookingId);
+        Destination destination = destinationRepository.findById(destinationId).orElseThrow(() -> new CustomEntityNotFoundException("Destination", destinationId));
 
-        destination.ifPresent(d -> booking.ifPresent(b -> b.removeDestination(d)));
-        bookingRepository.flush();
+        booking.removeDestination(destination);
+        //bookingRepository.flush();
     }
 
     public void deleteBooking(Long id) {
-        Booking booking = bookingRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Booking booking = getBookingById(id);
         bookingRepository.deleteById(booking.getId());
     }
 }

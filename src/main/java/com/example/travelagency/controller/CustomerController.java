@@ -1,12 +1,12 @@
 package com.example.travelagency.controller;
 
 import com.example.travelagency.entity.Customer;
-import com.example.travelagency.exception.CustomNotFoundException;
 import com.example.travelagency.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -18,7 +18,7 @@ public class CustomerController {
 
     @PostMapping("/createcustomer")
     @ResponseStatus(CREATED)
-    public Customer createCustomer(@RequestBody Customer customer) {
+    public Customer createCustomer(@Valid @RequestBody Customer customer) {
         return customerService.createCustomer(customer);
     }
 
@@ -29,8 +29,7 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public Customer getCustomerById(@PathVariable Long id) {
-        return customerService.getCustomerById(id)
-                .orElseThrow(() -> new CustomNotFoundException("Customer ID", id));
+        return customerService.getCustomerById(id);
     }
 
     @PostMapping("/additinerarytocustomer")
@@ -46,7 +45,8 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
+        return ResponseEntity.ok().body("Customer with id " + id + "successfully deleted.");
     }
 }

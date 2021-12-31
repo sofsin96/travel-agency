@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -17,7 +18,7 @@ public class DestinationController {
 
     @PostMapping("/createdestination")
     @ResponseStatus(CREATED)
-    public Destination createDestination(@RequestBody Destination destination) {
+    public Destination createDestination(@Valid @RequestBody Destination destination) {
         return destinationService.createDestination(destination);
     }
 

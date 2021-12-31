@@ -1,13 +1,13 @@
 package com.example.travelagency.controller;
 
 import com.example.travelagency.entity.User;
-import com.example.travelagency.exception.CustomNotFoundException;
 import com.example.travelagency.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,7 +26,6 @@ public class UserController {
     @PostMapping("/createuser")
     @ResponseStatus(CREATED)
     public User createUser(@Valid @RequestBody User user) {
-
         User createdUser = userService.createUser(user);
 
         ObjectMapper objMapper = new ObjectMapper();
@@ -45,8 +44,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id)
-                .orElseThrow(() -> new CustomNotFoundException("User ID", id));
+        return userService.getUserById(id);
     }
 
     @PostMapping("/addroletouser")
@@ -62,7 +60,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+        return ResponseEntity.ok().body("User with id " + id + "successfully deleted.");
     }
 }

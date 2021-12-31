@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity @Setter @Getter @JsonIdentityInfo(
@@ -17,8 +19,11 @@ public class Customer {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "Firstname is mandatory")
     private String firstName;
+    @NotEmpty(message = "Lastname is mandatory")
     private String lastName;
+    @NotEmpty(message = "Email is mandatory") @Email
     private String email;
 
     @OneToOne(mappedBy = "customer",

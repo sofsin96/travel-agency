@@ -1,44 +1,71 @@
 package com.example.travelagency.exception;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.time.LocalDateTime.now;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
 public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({CustomNotFoundException.class})
-    public final ResponseEntity<ExceptionResponse> customNotFoundException(
-            CustomNotFoundException ex, WebRequest req) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(
-                new Date(),
-                ex.getMessage(),
-                req.getDescription(true));
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    private ResponseEntity<Object> buildResponseEntity(ExceptionResponse exceptionResponse) {
+        return new ResponseEntity<>(exceptionResponse, exceptionResponse.getStatus());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest req) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        body.put("status", status.value());
+
+        List<String> errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.toList());
+        body.put("errors", errors);
+        //ApiError apiError = new ApiError(BAD_REQUEST, ex.getMessage(), errors);
+        //return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), req);
+        //return new ResponseEntity<>(apiError, apiError.getStatus());
+        return new ResponseEntity<>(body, headers, status);
     }
 
     @ExceptionHandler({CustomEntityNotFoundException.class})
-    public final ResponseEntity<ExceptionResponse> customEntityNotFoundException(
-            CustomEntityNotFoundException ex, WebRequest req) {
+    public ResponseEntity<Object> customEntityNotFoundException(CustomEntityNotFoundException ex, WebRequest req) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(
-                new Date(),
+                NOT_FOUND,
+                now(),
                 ex.getMessage(),
-                req.getDescription(true));
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
+                req.getDescription(true)
+        );
+        return buildResponseEntity(exceptionResponse);
     }
 
     @ExceptionHandler({CustomNameNotFoundException.class})
-    public final ResponseEntity<ExceptionResponse> customNameNotFoundException(
-            CustomNameNotFoundException ex, WebRequest req) {
+    public ResponseEntity<Object> customNameNotFoundException(CustomNameNotFoundException ex, WebRequest req) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(
-                new Date(),
+                NOT_FOUND,
+                now(),
                 ex.getMessage(),
-                req.getDescription(true));
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
+                req.getDescription(true)
+        );
+        return buildResponseEntity(exceptionResponse);
     }
 }
