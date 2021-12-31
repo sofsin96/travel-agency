@@ -18,7 +18,27 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(
                 new Date(),
                 ex.getMessage(),
-                req.getDescription(false));
+                req.getDescription(true));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({CustomEntityNotFoundException.class})
+    public final ResponseEntity<ExceptionResponse> customEntityNotFoundException(
+            CustomEntityNotFoundException ex, WebRequest req) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                req.getDescription(true));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler({CustomNameNotFoundException.class})
+    public final ResponseEntity<ExceptionResponse> customNameNotFoundException(
+            CustomNameNotFoundException ex, WebRequest req) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                req.getDescription(true));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
     }
 }

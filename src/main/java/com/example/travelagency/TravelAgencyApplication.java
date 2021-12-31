@@ -28,6 +28,9 @@ public class TravelAgencyApplication {
 
             userService.createUser(new User("Sofia Rodriguez", "sofia", "1234"));
             userService.addRoleToUser("sofia", "ADMIN");
+
+            userService.createUser(new User("Kozue Yamada", "kozue", "5555"));
+            userService.addRoleToUser("kozue", "ADMIN");
         };
     }
 
