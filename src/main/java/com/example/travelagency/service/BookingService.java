@@ -8,9 +8,7 @@ import com.example.travelagency.repository.DestinationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service @RequiredArgsConstructor
 public class BookingService {
@@ -36,6 +34,7 @@ public class BookingService {
 
         booking.addDestination(destination);
         //bookingRepository.flush();
+        // TODO: Return Entity
     }
 
     public void deleteDestinationFromBooking(Long bookingId, Long destinationId) {
@@ -44,6 +43,7 @@ public class BookingService {
 
         booking.removeDestination(destination);
         //bookingRepository.flush();
+        // TODO: Return Entity
     }
 
     public void deleteBooking(Long id) {

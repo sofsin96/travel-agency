@@ -11,7 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,12 +26,13 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, exceptionResponse.getStatus());
     }
 
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest req) {
-        Map<String, Object> body = new HashMap<>();
+        Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         body.put("status", status.value());
 
@@ -41,10 +42,7 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
         body.put("errors", errors);
-        //ApiError apiError = new ApiError(BAD_REQUEST, ex.getMessage(), errors);
-        //return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), req);
-        //return new ResponseEntity<>(apiError, apiError.getStatus());
-        return new ResponseEntity<>(body, headers, status);
+        return new ResponseEntity<>(body, status);
     }
 
     @ExceptionHandler({CustomEntityNotFoundException.class})
@@ -68,4 +66,16 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
         );
         return buildResponseEntity(exceptionResponse);
     }
+
+    @ExceptionHandler({PropertyAlreadyExistException.class})
+    public ResponseEntity<Object> propertyAlreadyExistException(PropertyAlreadyExistException ex, WebRequest req) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                NOT_FOUND,
+                now(),
+                ex.getMessage(),
+                req.getDescription(true)
+        );
+        return buildResponseEntity(exceptionResponse);
+    }
+
 }

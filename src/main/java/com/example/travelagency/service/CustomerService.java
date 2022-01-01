@@ -4,7 +4,9 @@ import com.example.travelagency.entity.Booking;
 import com.example.travelagency.entity.Customer;
 import com.example.travelagency.entity.CustomerProfile;
 import com.example.travelagency.exception.CustomEntityNotFoundException;
+import com.example.travelagency.exception.PropertyAlreadyExistException;
 import com.example.travelagency.repository.BookingRepository;
+import com.example.travelagency.repository.CustomerProfileRepository;
 import com.example.travelagency.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,13 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final BookingRepository bookingRepository;
+    private final CustomerProfileRepository customerProfileRepository;
 
     public Customer createCustomer(Customer customer) {
         CustomerProfile customerProfile = customer.getCustomerProfile();
+//        if (checkIfPersonalIdNoExist(customerProfile.getPersonalIdNo())) {
+//        throw new PropertyAlreadyExistException(customerProfile.getPersonalIdNo());
+//        }
         customerProfile.setCustomer(customer);
         return customerRepository.save(customer);
     }
@@ -37,6 +43,7 @@ public class CustomerService {
 
         customer.addItinerary(booking);
         //customerRepository.flush();
+        // TODO: Return Entity
     }
 
     public void deleteItineraryFromCustomer(Long customerId, Long bookingId) {
@@ -45,10 +52,15 @@ public class CustomerService {
 
         customer.removeItinerary(booking);
         //customerRepository.flush();
+        // TODO: Return Entity
     }
 
     public void deleteCustomer(Long id) {
         Customer customer = getCustomerById(id);
         customerRepository.deleteById(customer.getId());
+    }
+
+    public boolean checkIfPersonalIdNoExist(String personalIdNo) {
+        return customerProfileRepository.findByPersonalIdNo(personalIdNo) != null;
     }
 }

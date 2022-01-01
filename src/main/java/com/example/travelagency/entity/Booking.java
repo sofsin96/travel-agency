@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -19,7 +19,7 @@ public class Booking {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "Booking fee is mandatory.")
+    @DecimalMin(value = "100.0", message = "Error message")
     private double bookingCost;
     private LocalDate bookingDate;
 

@@ -19,11 +19,11 @@ public class User implements Serializable {
 
     private String name;
 
-    @NotEmpty(message = "Username is mandatory")
-    @Size(min = 2, message = "Username must be at least 2 characters long")
+    @NotEmpty(message = "Username is mandatory.")
+    @Size(min = 2, message = "Username must be at least 2 characters long.")
     private String username;
 
-    @NotEmpty(message = "Password is mandatory")
+    @NotEmpty(message = "Password is mandatory.")
     private String password;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

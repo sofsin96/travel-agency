@@ -4,6 +4,7 @@ import com.example.travelagency.entity.Role;
 import com.example.travelagency.entity.User;
 import com.example.travelagency.exception.CustomEntityNotFoundException;
 import com.example.travelagency.exception.CustomNameNotFoundException;
+import com.example.travelagency.exception.PropertyAlreadyExistException;
 import com.example.travelagency.repository.RoleRepository;
 import com.example.travelagency.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service @RequiredArgsConstructor @Transactional
@@ -40,8 +40,7 @@ public class UserService implements UserDetailsService {
 
     public User createUser(User user) {
         if (checkIfUserExist(user.getUsername())) {
-            throw new RuntimeException("User with username " + user.getUsername() + " already exists.");
-            // TODO: Create exception
+            throw new PropertyAlreadyExistException(user.getUsername());
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.addRole(roleRepository.findByName("USER"));
@@ -60,12 +59,14 @@ public class UserService implements UserDetailsService {
         User user = getUser(username);
         Role role = getRole(roleName);
         user.addRole(role);
+        // TODO: Return Entity
     }
 
     public void deleteRoleFromUser(String username, String roleName) {
         User user = getUser(username);
         Role role = getRole(roleName);
         user.removeRole(role);
+        // TODO: Return Entity
     }
 
     public void deleteUser(Long id) {

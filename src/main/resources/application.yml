@@ -15,3 +15,5 @@ spring:
       connection-string: ${SB_CS}
       idle-timeout: 1800000
       pricing-tier: standard
+  jackson:
+    default-property-inclusion: non_null

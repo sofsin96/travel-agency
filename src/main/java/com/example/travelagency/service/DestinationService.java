@@ -1,6 +1,7 @@
 package com.example.travelagency.service;
 
 import com.example.travelagency.entity.Destination;
+import com.example.travelagency.exception.PropertyAlreadyExistException;
 import com.example.travelagency.repository.DestinationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,7 @@ public class DestinationService {
 
     public Destination createDestination(Destination destination) {
         if (checkIfDestinationExist(destination.getCity())) {
-            throw new RuntimeException("City with name " + destination.getCity() + " already exists.");
-            // TODO: Create exception
+            throw new PropertyAlreadyExistException(destination.getCity());
         }
         return destinationRepository.save(destination);
     }

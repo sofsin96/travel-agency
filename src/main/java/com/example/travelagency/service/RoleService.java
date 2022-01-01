@@ -1,6 +1,7 @@
 package com.example.travelagency.service;
 
 import com.example.travelagency.entity.Role;
+import com.example.travelagency.exception.PropertyAlreadyExistException;
 import com.example.travelagency.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,7 @@ public class RoleService {
 
     public Role createRole(Role role) {
         if (checkIfRoleExist(role.getName())) {
-            throw new RuntimeException("Role with name " + role.getName() + " already exists.");
-            // TODO: Create exception
+            throw new PropertyAlreadyExistException(role.getName());
         }
         return roleRepository.save(role);
     }

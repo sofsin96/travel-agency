@@ -18,7 +18,7 @@ public class Role {
     private Long id;
 
     @Getter
-    @NotEmpty(message = "Name is mandatory")
+    @NotEmpty(message = "Name is mandatory.")
     private String name;
 
     @ManyToMany(mappedBy = "roles")
