@@ -21,11 +21,11 @@ public class Customer {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "Firstname is mandatory.")
+    @NotEmpty(message = "First name is mandatory.")
     private String firstName;
-    @NotEmpty(message = "Lastname is mandatory.")
+    @NotEmpty(message = "Last name is mandatory.")
     private String lastName;
-    @Email
+    @Email(message = "Please provide a valid email.")
     @NotEmpty(message = "Email is mandatory.")
     private String email;
 

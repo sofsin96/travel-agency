@@ -16,7 +16,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @PostMapping("/createcustomer")
+    @PostMapping("/create")
     @ResponseStatus(CREATED)
     public Customer createCustomer(@Valid @RequestBody Customer customer) {
         return customerService.createCustomer(customer);
@@ -32,14 +32,14 @@ public class CustomerController {
         return customerService.getCustomerById(id);
     }
 
-    @PostMapping("/additinerarytocustomer")
-    public ResponseEntity<?> addItineraryToCustomer(@RequestParam("customerid") Long customerId, @RequestParam("bookingid") Long bookingId) {
+    @PostMapping("/add/itinerary")
+    public ResponseEntity<?> addItineraryToCustomer(@RequestParam("customerId") Long customerId, @RequestParam("bookingId") Long bookingId) {
         customerService.addItineraryToCustomer(customerId, bookingId);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/deleteitineraryfromcustomer")
-    public ResponseEntity<?> deleteItineraryFromCustomer(@RequestParam("customerid") Long customerId, @RequestParam("bookingid") Long bookingId) {
+    @PostMapping("/delete/itinerary")
+    public ResponseEntity<?> deleteItineraryFromCustomer(@RequestParam("customerId") Long customerId, @RequestParam("bookingId") Long bookingId) {
         customerService.deleteItineraryFromCustomer(customerId, bookingId);
         return ResponseEntity.ok().build();
     }

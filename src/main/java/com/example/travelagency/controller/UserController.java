@@ -23,7 +23,7 @@ public class UserController {
     private final UserService userService;
     private final JmsTemplate jmsTemplate;
 
-    @PostMapping("/createuser")
+    @PostMapping("/create")
     @ResponseStatus(CREATED)
     public User createUser(@Valid @RequestBody User user) {
         User createdUser = userService.createUser(user);
@@ -47,14 +47,14 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/addroletouser")
-    public ResponseEntity<?> addRoleToUser(@RequestParam String username, @RequestParam("rolename") String roleName) {
+    @PostMapping("/add/role")
+    public ResponseEntity<?> addRoleToUser(@RequestParam("username") String username, @RequestParam("roleName") String roleName) {
         userService.addRoleToUser(username, roleName);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/deleterolefromuser")
-    public ResponseEntity<?> deleteRoleFromUser(@RequestParam String username, @RequestParam("rolename") String roleName) {
+    @PostMapping("/delete/role")
+    public ResponseEntity<?> deleteRoleFromUser(@RequestParam("username") String username, @RequestParam("roleName") String roleName) {
         userService.deleteRoleFromUser(username, roleName);
         return ResponseEntity.ok().build();
     }

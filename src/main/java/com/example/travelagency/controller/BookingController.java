@@ -16,7 +16,7 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    @PostMapping("/createbooking")
+    @PostMapping("/create")
     @ResponseStatus(CREATED)
     public Booking createBooking(@Valid @RequestBody Booking booking) {
         return bookingService.createBooking(booking);
@@ -32,14 +32,14 @@ public class BookingController {
         return bookingService.getBookingById(id);
     }
 
-    @PostMapping("/adddestinationtobooking")
-    public ResponseEntity<?> addDestinationToBooking(@RequestParam("bookingid") Long bookingId, @RequestParam("destinationid") Long destinationid) {
+    @PostMapping("/add/booking")
+    public ResponseEntity<?> addDestinationToBooking(@RequestParam("bookingId") Long bookingId, @RequestParam("destinationId") Long destinationid) {
         bookingService.addDestinationToBooking(bookingId, destinationid);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/deletedestinationfrombooking")
-    public ResponseEntity<?> deleteDestinationFromBooking(@RequestParam("bookingid") Long bookingId, @RequestParam("destinationid") Long destinationid) {
+    @PostMapping("/delete/destination")
+    public ResponseEntity<?> deleteDestinationFromBooking(@RequestParam("bookingId") Long bookingId, @RequestParam("destinationId") Long destinationid) {
         bookingService.deleteDestinationFromBooking(bookingId, destinationid);
         return ResponseEntity.ok().build();
     }

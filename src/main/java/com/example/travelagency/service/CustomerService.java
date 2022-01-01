@@ -42,8 +42,7 @@ public class CustomerService {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new CustomEntityNotFoundException("Booking", bookingId));
 
         customer.addItinerary(booking);
-        //customerRepository.flush();
-        // TODO: Return Entity
+        customerRepository.save(customer);
     }
 
     public void deleteItineraryFromCustomer(Long customerId, Long bookingId) {
@@ -51,8 +50,7 @@ public class CustomerService {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new CustomEntityNotFoundException("Booking", bookingId));
 
         customer.removeItinerary(booking);
-        //customerRepository.flush();
-        // TODO: Return Entity
+        customerRepository.save(customer);
     }
 
     public void deleteCustomer(Long id) {

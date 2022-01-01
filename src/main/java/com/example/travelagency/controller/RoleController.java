@@ -16,7 +16,7 @@ public class RoleController {
 
     private final RoleService roleService;
 
-    @PostMapping("/createrole")
+    @PostMapping("/create")
     @ResponseStatus(CREATED)
     public Role createRole(@Valid @RequestBody Role role) {
         return roleService.createRole(role);

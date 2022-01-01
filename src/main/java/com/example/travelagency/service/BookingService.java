@@ -33,8 +33,7 @@ public class BookingService {
         Destination destination = destinationRepository.findById(destinationId).orElseThrow(() -> new CustomEntityNotFoundException("Destination", destinationId));
 
         booking.addDestination(destination);
-        //bookingRepository.flush();
-        // TODO: Return Entity
+        bookingRepository.save(booking);
     }
 
     public void deleteDestinationFromBooking(Long bookingId, Long destinationId) {
@@ -42,8 +41,7 @@ public class BookingService {
         Destination destination = destinationRepository.findById(destinationId).orElseThrow(() -> new CustomEntityNotFoundException("Destination", destinationId));
 
         booking.removeDestination(destination);
-        //bookingRepository.flush();
-        // TODO: Return Entity
+        bookingRepository.save(booking);
     }
 
     public void deleteBooking(Long id) {

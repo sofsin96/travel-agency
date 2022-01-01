@@ -59,14 +59,12 @@ public class UserService implements UserDetailsService {
         User user = getUser(username);
         Role role = getRole(roleName);
         user.addRole(role);
-        // TODO: Return Entity
     }
 
     public void deleteRoleFromUser(String username, String roleName) {
         User user = getUser(username);
         Role role = getRole(roleName);
         user.removeRole(role);
-        // TODO: Return Entity
     }
 
     public void deleteUser(Long id) {

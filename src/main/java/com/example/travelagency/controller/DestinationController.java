@@ -16,7 +16,7 @@ public class DestinationController {
 
     private final DestinationService destinationService;
 
-    @PostMapping("/createdestination")
+    @PostMapping("/create")
     @ResponseStatus(CREATED)
     public Destination createDestination(@Valid @RequestBody Destination destination) {
         return destinationService.createDestination(destination);

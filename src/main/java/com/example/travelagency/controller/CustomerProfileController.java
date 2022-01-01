@@ -11,12 +11,12 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
-@RestController @RequestMapping("/api/v1/customerprofiles") @RequiredArgsConstructor
+@RestController @RequestMapping("/api/v1/customer-profiles") @RequiredArgsConstructor
 public class CustomerProfileController {
 
     private final CustomerProfileService customerProfileService;
 
-    @PostMapping("/createprofile")
+    @PostMapping("/create")
     @ResponseStatus(CREATED)
     public CustomerProfile createProfile (@Valid @RequestBody CustomerProfile customerProfile) {
         return customerProfileService.createProfile(customerProfile);
