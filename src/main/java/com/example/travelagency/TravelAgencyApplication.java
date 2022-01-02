@@ -4,6 +4,7 @@ import com.example.travelagency.entity.Role;
 import com.example.travelagency.entity.User;
 import com.example.travelagency.service.RoleService;
 import com.example.travelagency.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +13,6 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@EnableJms
 @SpringBootApplication
 public class TravelAgencyApplication {
 

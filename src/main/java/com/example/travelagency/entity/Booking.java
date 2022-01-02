@@ -2,19 +2,21 @@ package com.example.travelagency.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.*;
+
 @Entity @Setter @Getter @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id") @JsonInclude(Include.NON_NULL)
 public class Booking {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

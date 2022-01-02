@@ -14,6 +14,6 @@ spring:
     servicebus:
       connection-string: ${SB_CS}
       idle-timeout: 1800000
-      pricing-tier: standard
+      pricing-tier: premium
   jackson:
     default-property-inclusion: non_null

@@ -12,7 +12,7 @@ public class QueueReceiveController {
 
     private final Logger logger = LoggerFactory.getLogger(QueueReceiveController.class);
 
-    @JmsListener(destination = QUEUE_NAME, containerFactory = "jmsListenerContainerFactory")
+    @JmsListener(destination = QUEUE_NAME, containerFactory = "myFactory")
     public void receiveMessage(String message) {
         logger.info("Received message: {}", message);
     }

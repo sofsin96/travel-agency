@@ -1,13 +1,16 @@
 package com.example.travelagency.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
-@Entity @Setter @Getter
+import static com.fasterxml.jackson.annotation.JsonInclude.*;
+
+@Entity @Setter @Getter @JsonInclude(Include.NON_NULL)
 public class CustomerProfile {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

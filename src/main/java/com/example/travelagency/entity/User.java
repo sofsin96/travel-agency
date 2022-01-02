@@ -1,5 +1,6 @@
 package com.example.travelagency.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity @NoArgsConstructor @Getter @Setter
+import static com.fasterxml.jackson.annotation.JsonInclude.*;
+
+@Entity @NoArgsConstructor @Getter @Setter @JsonInclude(Include.NON_NULL)
 public class User implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
