@@ -1,6 +1,6 @@
 package com.example.travelagency.controller;
 
-import com.example.travelagency.entity.User;
+import com.example.travelagency.dto.UserDto;
 import com.example.travelagency.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,8 +24,8 @@ public class UserController {
 
     @PostMapping("/create")
     @ResponseStatus(CREATED)
-    public User createUser(@Valid @RequestBody User user) {
-        User createdUser = userService.createUser(user);
+    public UserDto createUser(@Valid @RequestBody UserDto userDto) {
+        UserDto createdUser = userService.createUser(userDto);
 
         ObjectMapper objMapper = new ObjectMapper();
         try {
@@ -37,12 +37,12 @@ public class UserController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<UserDto>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public UserDto getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 

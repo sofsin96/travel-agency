@@ -17,3 +17,5 @@ spring:
       pricing-tier: premium
   jackson:
     default-property-inclusion: non_null
+  main:
+    allow-circular-references: true

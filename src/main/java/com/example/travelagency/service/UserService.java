@@ -1,10 +1,13 @@
 package com.example.travelagency.service;
 
+import com.example.travelagency.dto.UserDto;
 import com.example.travelagency.entity.Role;
 import com.example.travelagency.entity.User;
 import com.example.travelagency.exception.CustomEntityNotFoundException;
 import com.example.travelagency.exception.CustomNameNotFoundException;
 import com.example.travelagency.exception.PropertyAlreadyExistException;
+import com.example.travelagency.mapper.RoleMapper;
+import com.example.travelagency.mapper.UserMapper;
 import com.example.travelagency.repository.RoleRepository;
 import com.example.travelagency.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service @RequiredArgsConstructor @Transactional
 public class UserService implements UserDetailsService {
@@ -26,6 +30,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,21 +43,23 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
-    public User createUser(User user) {
-        if (checkIfUserExist(user.getUsername())) {
+    public UserDto createUser(UserDto userDto) {
+        User user = userMapper.userDtoToUser(userDto);
+
+        if (userRepository.existsUserByUsername(user.getUsername())) {
             throw new PropertyAlreadyExistException(user.getUsername());
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.addRole(roleRepository.findByName("USER"));
-        return userRepository.save(user);
+        return userMapper.userToUserDto(userRepository.save(user));
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getUsers() {
+        return userRepository.findAll().stream().map(userMapper::userToUserDto).collect(Collectors.toList());
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException("User", id));
+    public UserDto getUserById(Long id) {
+        return userMapper.userToUserDto(userRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException("User", id)));
     }
 
     public void addRoleToUser(String username, String roleName) {
@@ -68,12 +75,8 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUser(Long id) {
-        User user = getUserById(id);
-        userRepository.deleteById(user.getId());
-    }
-
-    public boolean checkIfUserExist(String username) {
-        return userRepository.findByUsername(username) != null;
+        UserDto userDto = getUserById(id);
+        userRepository.deleteById(userDto.getId());
     }
 
     private User getUser(String username) {
@@ -86,9 +89,8 @@ public class UserService implements UserDetailsService {
 
     private Role getRole(String roleName) {
         Role role = roleRepository.findByName(roleName);
-        if (role == null) {
+        if (role == null)
             throw new CustomNameNotFoundException("Role name", roleName);
-        }
         return role;
     }
 }

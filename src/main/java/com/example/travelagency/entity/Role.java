@@ -2,14 +2,14 @@ package com.example.travelagency.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
-@Entity @Setter @NoArgsConstructor
+@Entity @Setter
 public class Role {
 
     @Id
@@ -25,7 +25,10 @@ public class Role {
     @Getter(onMethod=@__({@JsonIgnore}))
     private Set<User> users;
 
-    public Role(String name) {
-        this.name = name;
+    @PrePersist
+    public void prePersistFunction() {
+        if (!StringUtils.isAllUpperCase(name)) {
+            name = name.toUpperCase();
+        }
     }
 }

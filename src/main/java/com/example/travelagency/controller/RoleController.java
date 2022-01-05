@@ -1,6 +1,6 @@
 package com.example.travelagency.controller;
 
-import com.example.travelagency.entity.Role;
+import com.example.travelagency.dto.RoleDto;
 import com.example.travelagency.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ public class RoleController {
 
     @PostMapping("/create")
     @ResponseStatus(CREATED)
-    public Role createRole(@Valid @RequestBody Role role) {
-        return roleService.createRole(role);
+    public RoleDto createRole(@Valid @RequestBody RoleDto roleDto) {
+        return roleService.createRole(roleDto);
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Role>> getRoles() {
+    public ResponseEntity<List<RoleDto>> getRoles() {
         return ResponseEntity.ok().body(roleService.getRoles());
     }
 }
