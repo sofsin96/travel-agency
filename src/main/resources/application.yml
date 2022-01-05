@@ -16,6 +16,6 @@ spring:
       idle-timeout: 1800000
       pricing-tier: premium
   jackson:
-    default-property-inclusion: non_null
+    default-property-inclusion: non_empty
   main:
     allow-circular-references: true
