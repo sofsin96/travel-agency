@@ -1,10 +1,11 @@
 package com.example.travelagency.service;
 
+import com.example.travelagency.dto.CustomerDto;
 import com.example.travelagency.entity.Booking;
 import com.example.travelagency.entity.Customer;
 import com.example.travelagency.entity.CustomerProfile;
 import com.example.travelagency.exception.CustomEntityNotFoundException;
-import com.example.travelagency.exception.PropertyAlreadyExistException;
+import com.example.travelagency.mapper.CustomerMapper;
 import com.example.travelagency.repository.BookingRepository;
 import com.example.travelagency.repository.CustomerProfileRepository;
 import com.example.travelagency.repository.CustomerRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service @RequiredArgsConstructor
 public class CustomerService {
@@ -19,26 +21,25 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final BookingRepository bookingRepository;
     private final CustomerProfileRepository customerProfileRepository;
+    private final CustomerMapper customerMapper;
 
-    public Customer createCustomer(Customer customer) {
+    public CustomerDto createCustomer(CustomerDto customerDto) {
+        Customer customer = customerMapper.customerDtoToCustomer(customerDto);
         CustomerProfile customerProfile = customer.getCustomerProfile();
-//        if (checkIfPersonalIdNoExist(customerProfile.getPersonalIdNo())) {
-//        throw new PropertyAlreadyExistException(customerProfile.getPersonalIdNo());
-//        }
         customerProfile.setCustomer(customer);
-        return customerRepository.save(customer);
+        return customerMapper.customerToCustomerDto(customerRepository.save(customer));
     }
 
-    public List<Customer> getCustomers() {
-        return customerRepository.findAll();
+    public List<CustomerDto> getCustomers() {
+        return customerRepository.findAll().stream().map(customerMapper::customerToCustomerDto).collect(Collectors.toList());
     }
 
-    public Customer getCustomerById(Long id) {
-        return customerRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException("Customer", id));
+    public CustomerDto getCustomerById(Long id) {
+        return customerMapper.customerToCustomerDto(customerRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException("Customer", id)));
     }
 
     public void addItineraryToCustomer(Long customerId, Long bookingId) {
-        Customer customer = getCustomerById(customerId);
+        Customer customer = customerMapper.customerDtoToCustomer(getCustomerById(customerId));
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new CustomEntityNotFoundException("Booking", bookingId));
 
         customer.addItinerary(booking);
@@ -46,7 +47,7 @@ public class CustomerService {
     }
 
     public void deleteItineraryFromCustomer(Long customerId, Long bookingId) {
-        Customer customer = getCustomerById(customerId);
+        Customer customer = customerMapper.customerDtoToCustomer(getCustomerById(customerId));
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new CustomEntityNotFoundException("Booking", bookingId));
 
         customer.removeItinerary(booking);
@@ -54,8 +55,8 @@ public class CustomerService {
     }
 
     public void deleteCustomer(Long id) {
-        Customer customer = getCustomerById(id);
-        customerRepository.deleteById(customer.getId());
+        CustomerDto customerDto = getCustomerById(id);
+        customerRepository.deleteById(customerDto.getId());
     }
 
     public boolean checkIfPersonalIdNoExist(String personalIdNo) {

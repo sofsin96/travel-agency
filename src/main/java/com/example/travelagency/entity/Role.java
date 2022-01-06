@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity @Setter
@@ -18,7 +17,6 @@ public class Role {
     private Long id;
 
     @Getter
-    @NotEmpty(message = "Name is mandatory.")
     private String name;
 
     @ManyToMany(mappedBy = "roles")

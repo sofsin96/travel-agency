@@ -1,17 +1,13 @@
 package com.example.travelagency.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.*;
-
-@Entity @Setter @JsonInclude(Include.NON_NULL)
+@Entity @Setter
 public class Destination {
 
     @Id
@@ -19,10 +15,10 @@ public class Destination {
     @Getter
     private Long id;
 
-    @Getter @NotEmpty(message = "City is mandatory.")
+    @Getter
     private String city;
 
-    @Getter @NotEmpty(message = "Country is mandatory.")
+    @Getter
     private String country;
 
     @ManyToMany(mappedBy = "destinations")

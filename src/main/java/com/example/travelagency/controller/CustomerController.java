@@ -1,6 +1,6 @@
 package com.example.travelagency.controller;
 
-import com.example.travelagency.entity.Customer;
+import com.example.travelagency.dto.CustomerDto;
 import com.example.travelagency.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +18,17 @@ public class CustomerController {
 
     @PostMapping("/create")
     @ResponseStatus(CREATED)
-    public Customer createCustomer(@Valid @RequestBody Customer customer) {
-        return customerService.createCustomer(customer);
+    public CustomerDto createCustomer(@Valid @RequestBody CustomerDto customerDto) {
+        return customerService.createCustomer(customerDto);
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Customer>> getCustomers() {
+    public ResponseEntity<List<CustomerDto>> getCustomers() {
         return ResponseEntity.ok().body(customerService.getCustomers());
     }
 
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable Long id) {
+    public CustomerDto getCustomerById(@PathVariable Long id) {
         return customerService.getCustomerById(id);
     }
 
@@ -47,6 +47,6 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
-        return ResponseEntity.ok().body("Customer with id " + id + "successfully deleted.");
+        return ResponseEntity.ok().body("Customer with id " + id + " successfully deleted.");
     }
 }

@@ -1,32 +1,25 @@
 package com.example.travelagency.entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import java.util.Set;
-
-import static com.fasterxml.jackson.annotation.JsonInclude.*;
 
 @Entity @Setter @Getter
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-// @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@JsonInclude(Include.NON_NULL)
 public class Customer {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "First name is mandatory.")
     private String firstName;
-    @NotEmpty(message = "Last name is mandatory.")
     private String lastName;
-    @Email(message = "Please provide a valid email.")
-    @NotEmpty(message = "Email is mandatory.")
     private String email;
 
     @OneToOne(mappedBy = "customer",

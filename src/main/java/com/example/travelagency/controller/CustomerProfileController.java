@@ -1,6 +1,6 @@
 package com.example.travelagency.controller;
 
-import com.example.travelagency.entity.CustomerProfile;
+import com.example.travelagency.dto.CustomerProfileDto;
 import com.example.travelagency.service.CustomerProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ public class CustomerProfileController {
 
     @PostMapping("/create")
     @ResponseStatus(CREATED)
-    public CustomerProfile createProfile (@Valid @RequestBody CustomerProfile customerProfile) {
-        return customerProfileService.createProfile(customerProfile);
+    public CustomerProfileDto createProfile (@Valid @RequestBody CustomerProfileDto customerProfileDto) {
+        return customerProfileService.createProfile(customerProfileDto);
     }
 
     @GetMapping("")
-    public ResponseEntity<List<CustomerProfile>> getProfiles() {
+    public ResponseEntity<List<CustomerProfileDto>> getProfiles() {
         return ResponseEntity.ok().body(customerProfileService.getProfiles());
     }
 }

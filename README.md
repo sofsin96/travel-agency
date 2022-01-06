@@ -14,7 +14,7 @@ http://localhost:8080/login
 ## Users
 ### POST
 #### Create user
-http://localhost:8080/api/v1/users/createuser
+http://localhost:8080/api/v1/users/create
 #### Request body example
 ```json
 {
@@ -24,9 +24,9 @@ http://localhost:8080/api/v1/users/createuser
 }
 ```
 #### Add role to user
-http://localhost:8080/api/v1/users/addroletouser?username=test&rolename=ADMIN
+http://localhost:8080/api/v1/users/add/role?username=user&roleName=ADMIN
 #### Delete role from user
-http://localhost:8080/api/v1/users/deleterolefromuser?username=user&roleName=ADMIN
+http://localhost:8080/api/v1/users/delete/role?username=user&roleName=ADMIN
 ### GET
 #### Get all users
 http://localhost:8080/api/v1/users
@@ -36,10 +36,18 @@ http://localhost:8080/api/v1/users/{id}
 #### Delete user
 http://localhost:8080/api/v1/users/{id}
 
+## Roles
+### POST
+#### Create Role
+http://localhost:8080/api/v1/roles/create
+### GET
+#### Get all roles
+http://localhost:8080/api/v1/roles
+
 ## Customers
 ### POST
 #### Create customer
-http://localhost:8080/api/v1/customers/createcustomer
+http://localhost:8080/api/v1/customers/create
 #### Request body example
 ```json
 {
@@ -49,9 +57,9 @@ http://localhost:8080/api/v1/customers/createcustomer
 }
 ```
 #### Add itinerary to customer
-http://localhost:8080/api/v1/customers/additinerarytocustomer?customerid=1&bookingid=1
+http://localhost:8080/api/v1/customers/add/itinerary?customerid=1&bookingid=1
 #### Delete itinerary from customer
-http://localhost:8080/api/v1/customers/deleteitineraryfromcustomer?customerid=1&bookingid=1
+http://localhost:8080/api/v1/customers/delete/itinerary?customerid=1&bookingid=1
 ### GET
 #### Get all customers
 http://localhost:8080/api/v1/customers
@@ -64,7 +72,7 @@ http://localhost:8080/api/v1/customers/{id}
 ## Bookings
 ### POST
 #### Create booking
-http://localhost:8080/api/v1/bookings/createbooking
+http://localhost:8080/api/v1/bookings/create
 #### Request body example
 ```json
 {
