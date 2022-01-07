@@ -6,7 +6,6 @@ import com.example.travelagency.entity.User;
 import com.example.travelagency.exception.CustomEntityNotFoundException;
 import com.example.travelagency.exception.CustomNameNotFoundException;
 import com.example.travelagency.exception.PropertyAlreadyExistException;
-import com.example.travelagency.mapper.RoleMapper;
 import com.example.travelagency.mapper.UserMapper;
 import com.example.travelagency.repository.RoleRepository;
 import com.example.travelagency.repository.UserRepository;
@@ -27,6 +26,8 @@ import java.util.stream.Collectors;
 @Service @RequiredArgsConstructor @Transactional
 public class UserService implements UserDetailsService {
 
+    private final static String USER_NOT_FOUND_MSG = "User with username %s not found in the database.";
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -36,7 +37,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found in the database.");
+            throw new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username));
         }
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName())));
