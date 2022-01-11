@@ -1,6 +1,7 @@
 package com.example.travelagency.service;
 
 import com.example.travelagency.dto.UserDto;
+import com.example.travelagency.dto.UserFullName;
 import com.example.travelagency.entity.Role;
 import com.example.travelagency.entity.User;
 import com.example.travelagency.exception.CustomEntityNotFoundException;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -78,6 +80,22 @@ public class UserService implements UserDetailsService {
     public void deleteUser(Long id) {
         UserDto userDto = getUserById(id);
         userRepository.deleteById(userDto.getId());
+    }
+
+    public UserDto update(Long id, UserFullName userFullName) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()) {
+            User updatedUser = user.get();
+            if(userFullName.fullName != null)
+                updatedUser.setName(userFullName.fullName);
+            return userMapper.userToUserDto(userRepository.save(updatedUser));
+        }
+        else
+            throw new CustomEntityNotFoundException("User", id);
+    }
+
+    public List<UserDto> search(String name) {
+        return userRepository.findAllByName(name).stream().map(userMapper::userToUserDto).collect(Collectors.toList());
     }
 
     private User getUser(String username) {

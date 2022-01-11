@@ -6,9 +6,9 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
-@Setter @Getter @JsonInclude(Include.NON_EMPTY)
+@Setter @Getter @JsonInclude(NON_EMPTY)
 public class CustomerProfileDto {
 
     private Long id;

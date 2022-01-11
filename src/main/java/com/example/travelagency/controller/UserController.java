@@ -1,12 +1,13 @@
 package com.example.travelagency.controller;
 
 import com.example.travelagency.dto.UserDto;
+import com.example.travelagency.dto.UserFullName;
 import com.example.travelagency.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jms.core.JmsTemplate;
+//import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,20 +21,19 @@ public class UserController {
     private static final String DESTINATION_NAME = "created-user";
 
     private final UserService userService;
-    private final JmsTemplate jmsTemplate;
+//    private final JmsTemplate jmsTemplate;
 
     @PostMapping("/create")
     @ResponseStatus(CREATED)
     public UserDto createUser(@Valid @RequestBody UserDto userDto) {
-        UserDto createdUser = userService.createUser(userDto);
 
-        ObjectMapper objMapper = new ObjectMapper();
-        try {
-            jmsTemplate.convertAndSend(DESTINATION_NAME, objMapper.writeValueAsString(createdUser));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return createdUser;
+//        ObjectMapper objMapper = new ObjectMapper();
+//        try {
+//            jmsTemplate.convertAndSend(DESTINATION_NAME, objMapper.writeValueAsString(createdUser));
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+        return userService.createUser(userDto);
     }
 
     @GetMapping("")
@@ -62,5 +62,16 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().body("User with id " + id + " successfully deleted.");
+    }
+
+    @PatchMapping("/{id}")
+    public UserDto update(@RequestBody UserFullName userFullName, @PathVariable Long id) {
+        return userService.update(id, userFullName);
+    }
+
+    @GetMapping("/search")
+    @ResponseBody
+    public ResponseEntity<List<UserDto>> search(@RequestParam("name") String name) {
+        return ResponseEntity.ok().body(userService.search(name));
     }
 }

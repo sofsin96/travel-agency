@@ -10,11 +10,6 @@ spring:
     console:
       enabled: true
       path: /h2-console
-  jms:
-    servicebus:
-      connection-string: ${SB_CS}
-      idle-timeout: 1800000
-      pricing-tier: premium
   jackson:
     default-property-inclusion: non_empty
   main:

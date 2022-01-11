@@ -35,8 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http
                 .authorizeRequests()
-                .antMatchers("/signup", "/api/v1/users/create", "/home").permitAll()
-                .antMatchers("/h2-console/*").permitAll()
+                .antMatchers("/login", "/signup", "/home", "/api/v1/users/create", "/h2-console/*").permitAll()
                 .antMatchers(GET, "/api/v1/users", "/api/v1/users/{id}").hasAnyRole("ADMIN", "USER")
                 .antMatchers(POST, "/api/v1/users/add/role", "/api/v1/users/delete/role").hasRole("ADMIN")
                 .antMatchers(DELETE, "/api/v1/users/{id}").hasRole("ADMIN")

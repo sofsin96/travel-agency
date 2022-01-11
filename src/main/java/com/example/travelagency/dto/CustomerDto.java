@@ -9,9 +9,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
-@Setter @Getter @JsonInclude(Include.NON_EMPTY)
+@Setter @Getter @JsonInclude(NON_EMPTY)
 public class CustomerDto {
 
     private Long id;

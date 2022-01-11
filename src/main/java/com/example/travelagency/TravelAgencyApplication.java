@@ -25,11 +25,11 @@ public class TravelAgencyApplication {
             roleService.createRole(new RoleDto("USER"));
             roleService.createRole(new RoleDto("ADMIN"));
 
-//            userService.createUser(new UserDto("Sofia Rodriguez", "sofia", "1234"));
-//            userService.addRoleToUser("sofia", "ADMIN");
-//
-//            userService.createUser(new UserDto("Kozue Yamada", "kozue", "5555"));
-//            userService.addRoleToUser("kozue", "ADMIN");
+            userService.createUser(new UserDto("Sofia Rodriguez", "sofia", "1234"));
+            userService.addRoleToUser("sofia", "ADMIN");
+
+            userService.createUser(new UserDto("Kozue Yamada", "kozue", "5555"));
+            userService.addRoleToUser("kozue", "ADMIN");
         };
     }
 

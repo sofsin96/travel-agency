@@ -9,9 +9,9 @@ import javax.validation.constraints.DecimalMin;
 import java.time.LocalDate;
 import java.util.Set;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
-@Setter @Getter @JsonInclude(Include.NON_EMPTY)
+@Setter @Getter @JsonInclude(NON_EMPTY)
 public class BookingDto {
 
     private Long id;

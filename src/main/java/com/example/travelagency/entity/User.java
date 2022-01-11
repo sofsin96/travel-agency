@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity @Getter @Setter
+@Entity @Getter @Setter @NoArgsConstructor
 public class User implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,14 +19,14 @@ public class User implements Serializable {
     private String password;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
-//    public User(String name, String username, String password) {
-//        this.name = name;
-//        this.username = username;
-//        this.password = password;
-//        this.roles = new HashSet<>();
-//    }
+    public User(String name, String username, String password) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.roles = new HashSet<>();
+    }
 
     public void addRole(Role role) {
         this.roles.add(role);
