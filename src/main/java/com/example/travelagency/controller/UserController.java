@@ -18,7 +18,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController @RequestMapping("/api/v1/users") @RequiredArgsConstructor
 public class UserController {
 
-    private static final String DESTINATION_NAME = "created-user";
+//    private static final String DESTINATION_NAME = "created-user";
 
     private final UserService userService;
 //    private final JmsTemplate jmsTemplate;

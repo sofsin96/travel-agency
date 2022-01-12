@@ -25,16 +25,22 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="login.html" th:href="@{/login}">Sign in</a>
+                    <a class="nav-link disabled" th:href="@{/login}">Sign in</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-secondary" href="signup.html" th:href="@{/signup}">Sign up</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/signup}">Sign up</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<form class="d-flex flex-column justify-content-center align-items-center" action="#" th:action="@{/login}" method="post">
+<div th:if="${param.error}">
+    Invalid username and password.
+</div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+<form class="d-flex flex-column justify-content-center align-items-center" th:action="@{/login}" method="post">
     <div class="mb-3">
         <label for="username" class="form-label">Username</label>
         <input type="text" class="form-control" id="username" name="username">
@@ -43,7 +49,7 @@
         <label for="password" class="form-label">Password</label>
         <input type="password" class="form-control" id="password" name="password">
     </div>
-    <button type="submit" class="btn btn-primary" id="btnSave">Sign in</button>
+    <button type="submit" class="btn btn-primary">Sign in</button>
 </form>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

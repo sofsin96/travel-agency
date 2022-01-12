@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,12 +31,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().and().headers().disable();
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http
                 .authorizeRequests()
-                .antMatchers("/login", "/signup", "/home", "/api/v1/users/create", "/h2-console/*").permitAll()
+                .antMatchers("/login", "/signup", "/home", "/api/v1/users/create", "/h2-console/**").permitAll()
                 .antMatchers(GET, "/api/v1/users", "/api/v1/users/{id}").hasAnyRole("ADMIN", "USER")
                 .antMatchers(POST, "/api/v1/users/add/role", "/api/v1/users/delete/role").hasRole("ADMIN")
                 .antMatchers(DELETE, "/api/v1/users/{id}").hasRole("ADMIN")
@@ -54,8 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .permitAll();
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.httpBasic();
+//        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+//        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

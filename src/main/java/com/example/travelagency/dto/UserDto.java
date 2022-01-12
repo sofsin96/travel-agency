@@ -26,13 +26,12 @@ public class UserDto {
     @NotEmpty(message = "Password is mandatory.")
     private String password;
 
-    private Set<RoleDto> roles;
+    private Set<RoleDto> roles = new HashSet<>();
 
     public UserDto(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.roles = new HashSet<>();
     }
 
     @Override
