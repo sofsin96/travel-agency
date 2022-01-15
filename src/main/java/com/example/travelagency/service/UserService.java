@@ -7,11 +7,11 @@ import com.example.travelagency.entity.User;
 import com.example.travelagency.exception.CustomEntityNotFoundException;
 import com.example.travelagency.exception.CustomNameNotFoundException;
 import com.example.travelagency.exception.PropertyAlreadyExistException;
+import com.example.travelagency.filter.UserPrincipal;
 import com.example.travelagency.mapper.UserMapper;
 import com.example.travelagency.repository.RoleRepository;
 import com.example.travelagency.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,10 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service @RequiredArgsConstructor @Transactional
@@ -41,9 +39,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username));
         }
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName())));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+        return new UserPrincipal(user);
     }
 
     public UserDto createUser(UserDto userDto) {
@@ -80,6 +76,19 @@ public class UserService implements UserDetailsService {
     public void deleteUser(Long id) {
         UserDto userDto = getUserById(id);
         userRepository.deleteById(userDto.getId());
+    }
+
+    public void replace(Long id, UserDto userDto) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()) {
+            User updatedUser = user.get();
+            updatedUser.setName(userDto.getName());
+            updatedUser.setUsername(userDto.getUsername());
+            updatedUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            userMapper.userToUserDto(userRepository.save(updatedUser));
+        }
+        else
+            throw new CustomEntityNotFoundException("User", id);
     }
 
     public UserDto update(Long id, UserFullName userFullName) {

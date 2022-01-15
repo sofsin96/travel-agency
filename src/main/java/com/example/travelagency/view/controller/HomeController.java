@@ -1,9 +1,10 @@
 package com.example.travelagency.view.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Controller
+@Controller @RequiredArgsConstructor
 public class HomeController {
 
     @GetMapping("/home")

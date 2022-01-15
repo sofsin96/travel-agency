@@ -15,10 +15,13 @@
     >
 </head>
 <body class="flex-grow-1">
+<!--<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>-->
+
 <div sec:authorize="isAuthenticated()">
-    Authenticated as <span sec:authentication="name"></span>
+    Hello <span sec:authentication="name"></span>
+    <p><a th:href="@{/users}">Manage Users</a></p>
 </div>
-<form th:action="@{/logout}" method="post">
+<form action="/logout" method="get">
     <input type="submit" value="Logout">
 </form>
 </body>
