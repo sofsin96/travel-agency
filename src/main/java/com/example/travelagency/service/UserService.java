@@ -1,5 +1,6 @@
 package com.example.travelagency.service;
 
+import com.example.travelagency.security.UserPrincipal;
 import com.example.travelagency.dto.UserDto;
 import com.example.travelagency.dto.UserFullName;
 import com.example.travelagency.entity.Role;
@@ -7,7 +8,6 @@ import com.example.travelagency.entity.User;
 import com.example.travelagency.exception.CustomEntityNotFoundException;
 import com.example.travelagency.exception.CustomNameNotFoundException;
 import com.example.travelagency.exception.PropertyAlreadyExistException;
-import com.example.travelagency.filter.UserPrincipal;
 import com.example.travelagency.mapper.UserMapper;
 import com.example.travelagency.repository.RoleRepository;
 import com.example.travelagency.repository.UserRepository;
@@ -80,7 +80,7 @@ public class UserService implements UserDetailsService {
 
     public void replace(Long id, UserDto userDto) {
         Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             User updatedUser = user.get();
             updatedUser.setName(userDto.getName());
             updatedUser.setUsername(userDto.getUsername());
@@ -93,9 +93,9 @@ public class UserService implements UserDetailsService {
 
     public UserDto update(Long id, UserFullName userFullName) {
         Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             User updatedUser = user.get();
-            if(userFullName.fullName != null)
+            if (userFullName.fullName != null)
                 updatedUser.setName(userFullName.fullName);
             return userMapper.userToUserDto(userRepository.save(updatedUser));
         }

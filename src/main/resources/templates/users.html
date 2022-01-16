@@ -15,33 +15,35 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body class="flex-grow-1">
-<h1>Users</h1>
-<a th:href="@{/home}">Back to Home</a>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Username</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.name}"></td>
-        <td th:text="${user.username}"></td>
-        <td>
-            <a th:href="@{/users/edit/{id}(id=${user.id})}">
-                <i class='bx bxs-pencil'></i>
-            </a>
-        </td>
-        <td>
-            <a th:href="@{/users/delete/{id}(id=${user.id})}">
-                <i class='bx bxs-trash-alt' ></i>
-            </a>
-    </tr>
-    </tbody>
-</table>
+<h2 class="text-center" style="margin-top: 20px">Users</h2>
+<div class="mx-auto w-75 p-3 border border-dark">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.username}"></td>
+            <td>
+                <a th:href="@{/users/edit/{id}(id=${user.id})}">
+                    <i class='bx bxs-pencil'></i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/users/delete/{id}(id=${user.id})}">
+                    <i class='bx bxs-trash-alt' ></i>
+                </a>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<a th:href="@{/home}" style="margin-left: 20px">Back to Home</a>
 </body>
 </html>

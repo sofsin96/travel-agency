@@ -1,4 +1,4 @@
-package com.example.travelagency.filter;
+package com.example.travelagency.security;
 
 import com.example.travelagency.entity.Role;
 import com.example.travelagency.entity.User;

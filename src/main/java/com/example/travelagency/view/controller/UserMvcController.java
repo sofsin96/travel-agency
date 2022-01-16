@@ -27,14 +27,14 @@ public class UserMvcController {
         UserDto userDto = userService.getUserById(id);
         model.addAttribute("user", userDto);
 
-        return "update-user";
+        return "edit-user";
     }
 
     @PostMapping("/edit/{id}")
     public String updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("user") UserDto userDto, BindingResult result) {
         if (result.hasErrors()) {
             userDto.setId(id);
-            return "update-user";
+            return "edit-user";
         }
         userService.replace(id, userDto);
         return "redirect:/users";
