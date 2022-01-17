@@ -5,7 +5,7 @@ import com.example.travelagency.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,10 +24,10 @@ import javax.validation.Valid;
 @Controller @RequiredArgsConstructor
 public class RegistrationController {
 
-//    private static final String DESTINATION_NAME = "created-user";
+    private static final String DESTINATION_NAME = "created-user";
 
     private final UserService userService;
-//    private final JmsTemplate jmsTemplate;
+    private final JmsTemplate jmsTemplate;
     private final AuthenticationManager authenticationManager;
 
     @GetMapping("/signup")
@@ -43,12 +43,12 @@ public class RegistrationController {
         }
         userService.createUser(userDto);
 
-//        ObjectMapper objMapper = new ObjectMapper();
-//        try {
-//            jmsTemplate.convertAndSend(DESTINATION_NAME, objMapper.writeValueAsString(userDto));
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
+        ObjectMapper objMapper = new ObjectMapper();
+        try {
+            jmsTemplate.convertAndSend(DESTINATION_NAME, objMapper.writeValueAsString(userDto));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         authWithAuthManager(request, userDto.getUsername(), userDto.getPassword());
 
