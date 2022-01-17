@@ -93,7 +93,34 @@ http://localhost:8080/api/v1/bookings/{id}
 #### Delete customer
 http://localhost:8080/api/v1/bookings/{id}
 
+## Customer Profiles
+### POST
+#### Create customer profile
+http://localhost:8080/api/v1/customer-profiles/create
+#### Request body example
+```json
+{
+  "personalIdNo": "990213-1234",
+  "phoneNumber" : "012-345-6789",
+  "address" : "Andragatan 12",
+  "gender" : "M"
+}
+```
+### GET
+#### Get all profiles
+http://localhost:8080/api/customer-profiles
 
- 
-
-
+## Destinations
+### POST
+#### Create destination
+http://localhost:8080/api/v1/destinations/create
+#### Request body example
+```json
+{
+  "city": "Gothenburg",
+  "country" : "Sweden"
+}
+```
+### GET
+#### Get all destinations
+http://localhost:8080/api/v1/destinations
